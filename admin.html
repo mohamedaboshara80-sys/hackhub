@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Admin · HackHub{% endblock %}
+{% block content %}
+<h1>Admin panel</h1>
+<h2>Users</h2>
+<div class="table-wrap">
+<table>
+  <tr><th>ID</th><th>Username</th><th>Email</th><th>Role / new password</th><th></th></tr>
+  {% for u in users %}
+  <tr><td>{{ u.id }}</td><td>{{ u.username }}</td><td>{{ u.email }}</td>
+    <td><form method="post" action="{{ url_for('admin_update_user', uid=u.id) }}" class="row-form">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+      <select name="role">{% for r in ['participant','host','admin'] %}<option {{ 'selected' if u.role==r }}>{{ r }}</option>{% endfor %}</select>
+      <input type="password" name="password" placeholder="New password (optional)" autocomplete="new-password">
+      <button class="btn small">Save</button></form></td>
+    <td>{% if u.id != user.id %}<form method="post" action="{{ url_for('admin_delete_user', uid=u.id) }}" class="inline" onsubmit="return confirm('Delete {{ u.username }}?')">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token }}"><button class="link danger-text">Delete</button></form>{% endif %}</td></tr>
+  {% endfor %}
+</table></div>
+<h2>Hackathons</h2>
+<div class="table-wrap">
+<table>
+  <tr><th>Name</th><th>Host</th><th>Start</th><th>Applications</th><th></th></tr>
+  {% for h in hackathons %}
+  <tr><td><a href="{{ url_for('hackathon_detail', hid=h.id) }}">{{ h.name }}</a></td><td>{{ h.host_name }}</td><td>{{ h.start_date }}</td>
+    <td><a href="{{ url_for('hackathon_applications', hid=h.id) }}">{{ h.app_count }}</a></td>
+    <td><a href="{{ url_for('edit_hackathon', hid=h.id) }}">Edit</a></td></tr>
+  {% else %}<tr><td colspan="5" class="empty">No hackathons yet.</td></tr>{% endfor %}
+</table></div>
+{% endblock %}

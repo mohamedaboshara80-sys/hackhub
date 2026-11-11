@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}{{ h.name }} · HackHub{% endblock %}
+{% block content %}
+<section class="card">
+  <h1>{{ h.name }}</h1>
+  <p class="muted">Hosted by {{ h.host_name }}</p>
+  <dl class="facts">
+    <div><dt>Start date</dt><dd>{{ h.start_date }}</dd></div>
+    <div><dt>Duration</dt><dd>{{ h.duration }}</dd></div>
+    <div><dt>Domains</dt><dd class="tags">{% for d in h.domains.split(',') %}<span class="tag">{{ d.strip() }}</span>{% endfor %}</dd></div>
+  </dl>
+  <h2>Terms &amp; conditions</h2>
+  <p class="prose">{{ h.terms }}</p>
+  {% if h.notes %}<h2>Additional notes</h2><p class="prose">{{ h.notes }}</p>{% endif %}
+  <div class="actions">
+    {% if user.role == 'participant' %}
+      {% if applied %}<span class="tag done">You've applied</span>
+      {% else %}<a class="btn" href="{{ url_for('apply', hid=h.id) }}">Apply</a>{% endif %}
+    {% endif %}
+    {% if can_manage %}
+      <a class="btn ghost" href="{{ url_for('hackathon_applications', hid=h.id) }}">View applications</a>
+      <a class="btn ghost" href="{{ url_for('edit_hackathon', hid=h.id) }}">Edit</a>
+      <form method="post" action="{{ url_for('delete_hackathon', hid=h.id) }}" class="inline" onsubmit="return confirm('Delete this hackathon and all its applications?')">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token }}"><button class="btn danger">Delete</button></form>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

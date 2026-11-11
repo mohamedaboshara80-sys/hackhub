@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}HackHub{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<header class="nav">
+  <a class="brand" href="{{ url_for('index') }}">HackHub</a>
+  <nav>
+    {% if user %}
+      {% if user.role == 'participant' %}
+        <a href="{{ url_for('hackathons') }}">Hackathons</a>
+        <a href="{{ url_for('my_applications') }}">My applications</a>
+      {% elif user.role == 'host' %}
+        <a href="{{ url_for('host_dashboard') }}">My hackathons</a>
+        <a href="{{ url_for('hackathons') }}">All hackathons</a>
+      {% else %}
+        <a href="{{ url_for('admin_panel') }}">Admin</a>
+        <a href="{{ url_for('hackathons') }}">All hackathons</a>
+      {% endif %}
+      <span class="who">{{ user.username }} <small>({{ user.role }})</small></span>
+      <form method="post" action="{{ url_for('logout') }}" class="inline">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+        <button class="link">Log out</button>
+      </form>
+    {% else %}
+      <a class="btn small" href="{{ url_for('login') }}">Log in / Register</a>
+    {% endif %}
+  </nav>
+</header>
+<main class="wrap">
+  {% for category, message in get_flashed_messages(with_categories=true) %}
+    <div class="flash {{ category }}" role="status">{{ message }}</div>
+  {% endfor %}
+  {% block content %}{% endblock %}
+</main>
+</body>
+</html>

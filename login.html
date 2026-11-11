@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Log in · HackHub{% endblock %}
+{% block content %}
+<section class="card narrow">
+  <h1>Log in</h1>
+  <form method="post">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+    <label>Username or email <input name="identifier" required autocomplete="username"></label>
+    <label>Password <input type="password" name="password" required autocomplete="current-password"></label>
+    <button class="btn">Log in</button>
+  </form>
+  <p class="muted">New here? <a href="{{ url_for('register') }}">Create an account</a></p>
+</section>
+{% endblock %}

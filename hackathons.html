@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block title %}Available hackathons · HackHub{% endblock %}
+{% block content %}
+<h1>Available hackathons</h1>
+{% for h in hackathons %}{% include "_hackathon_card.html" %}
+{% else %}<p class="empty">No hackathons yet. Check back soon — hosts publish new ones all the time.</p>{% endfor %}
+{% endblock %}

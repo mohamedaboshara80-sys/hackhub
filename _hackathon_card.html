@@ -1,0 +1,8 @@
+<article class="ticket card-ticket">
+  <div class="ticket-main">
+    <h3><a href="{{ url_for('hackathon_detail', hid=h.id) }}">{{ h.name }}</a></h3>
+    <p class="muted">Hosted by {{ h.host_name or user.username }}</p>
+    <p class="tags">{% for d in h.domains.split(',') %}<span class="tag">{{ d.strip() }}</span>{% endfor %}</p>
+  </div>
+  <div class="ticket-stub"><strong>{{ h.duration }}</strong><span>starts {{ h.start_date }}</span></div>
+</article>

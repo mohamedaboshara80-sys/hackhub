@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="hero">
+  <div>
+    <h1>Where hackathon hosts meet the teams who want to build.</h1>
+    <p class="lead">Hosts publish a hackathon in minutes. Participants browse every event, form a team and apply in one form.</p>
+    <a class="btn big" href="{{ url_for('login') if not user else url_for('dashboard') }}">
+      {{ 'Go to your dashboard' if user else 'Login / Register' }}
+    </a>
+  </div>
+  <aside class="ticket" aria-label="Example hackathon">
+    <div class="ticket-main">
+      <p class="muted">Example hackathon</p>
+      <h2>Night Shift 48</h2>
+      <p>AI &middot; Web Dev &middot; Cybersecurity</p>
+    </div>
+    <div class="ticket-stub"><strong>48 h</strong><span>starts 12 Dec</span></div>
+  </aside>
+</section>
+<section class="two-col">
+  <div class="panel"><h3>For hosts</h3><p>Create a hackathon with its domains, dates and rules. It's visible to every participant the moment you publish, and applications land in your dashboard.</p></div>
+  <div class="panel"><h3>For participants</h3><p>See what's open, read the rules, then apply with your team, university and project idea.</p></div>
+</section>
+{% endblock %}

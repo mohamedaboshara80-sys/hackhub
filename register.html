@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Create account · HackHub{% endblock %}
+{% block content %}
+<section class="card narrow">
+  <h1>Create your account</h1>
+  <form method="post" novalidate>
+    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+    <label>Username <input name="username" required minlength="3" maxlength="30" value="{{ form.get('username','') }}" autocomplete="username"></label>
+    <label>Email <input type="email" name="email" required value="{{ form.get('email','') }}" autocomplete="email"></label>
+    <label>Password <input type="password" name="password" required minlength="6" autocomplete="new-password"></label>
+    <fieldset class="roles">
+      <legend>I am a…</legend>
+      <label class="choice"><input type="radio" name="role" value="host" required {{ 'checked' if form.get('role')=='host' }}>
+        <span><strong>Host</strong> An organization or company running hackathons</span></label>
+      <label class="choice"><input type="radio" name="role" value="participant" {{ 'checked' if form.get('role')=='participant' }}>
+        <span><strong>Participant</strong> A student or competitor looking to join</span></label>
+    </fieldset>
+    <button class="btn">Create account</button>
+  </form>
+  <p class="muted">Already registered? <a href="{{ url_for('login') }}">Log in</a></p>
+</section>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}{{ 'Edit' if editing else 'Create' }} hackathon · HackHub{% endblock %}
+{% block content %}
+<section class="card">
+  <h1>{{ 'Edit hackathon' if editing else 'Create hackathon' }}</h1>
+  <form method="post">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+    <label>Hackathon name <input name="name" required value="{{ h.get('name','') }}"></label>
+    <label>Fields / domains <input name="domains" required placeholder="AI, Web Dev, Cybersecurity" value="{{ h.get('domains','') }}">
+      <small>Separate domains with commas. Participants pick one when they apply.</small></label>
+    <div class="grid2">
+      <label>Duration <input name="duration" required placeholder="48 hours" value="{{ h.get('duration','') }}"></label>
+      <label>Start date <input type="date" name="start_date" required value="{{ h.get('start_date','') }}"></label>
+    </div>
+    <label>Terms &amp; conditions / rules <textarea name="terms" rows="6" required>{{ h.get('terms','') }}</textarea></label>
+    <label>Additional notes <textarea name="notes" rows="3">{{ h.get('notes','') or '' }}</textarea></label>
+    <button class="btn">{{ 'Save changes' if editing else 'Publish hackathon' }}</button>
+  </form>
+</section>
+{% endblock %}

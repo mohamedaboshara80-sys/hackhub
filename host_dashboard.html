@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}Host dashboard · HackHub{% endblock %}
+{% block content %}
+<div class="head-row"><h1>Your hackathons</h1><a class="btn" href="{{ url_for('create_hackathon') }}">Create Hackathon</a></div>
+{% for h in hackathons %}
+  {% include "_hackathon_card.html" %}
+  <p class="under-ticket"><a href="{{ url_for('hackathon_applications', hid=h.id) }}">{{ h.app_count }} application{{ '' if h.app_count == 1 else 's' }}</a></p>
+{% else %}<p class="empty">You haven't published a hackathon yet. Create your first one and every participant will see it.</p>{% endfor %}
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Applications · {{ h.name }}{% endblock %}
+{% block content %}
+<h1>Applications for {{ h.name }}</h1>
+<div class="table-wrap">
+<table>
+  <tr><th>Team</th><th>Project</th><th>Domain</th><th>Leader</th><th>Applicant</th><th>Members</th><th>Institutions</th><th>Sent</th><th></th></tr>
+  {% for a in apps %}
+  <tr><td>{{ a.team_name }}</td><td>{{ a.project_name }}</td><td>{{ a.domain }}</td><td>{{ a.team_leader }}</td>
+      <td>{{ a.participant_username }}</td><td>{{ a.team_members }}</td><td>{{ a.institutions }}</td><td>{{ a.created_at[:10] }}</td>
+      <td><form method="post" action="{{ url_for('delete_application', aid=a.id) }}" class="inline" onsubmit="return confirm('Remove this application?')">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token }}"><button class="link danger-text">Remove</button></form></td></tr>
+  {% else %}<tr><td colspan="9" class="empty">No applications yet.</td></tr>{% endfor %}
+</table></div>
+{% endblock %}
